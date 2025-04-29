@@ -1,2 +1,2 @@
-# terraform_template
-Template directory for creating Terraform
+# eks_cluster
+Terraform code for creating an EKS Cluster and testing with namespace/deployments
