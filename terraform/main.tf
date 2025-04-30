@@ -15,13 +15,17 @@ module "eks" {
   subnet_ids = module.vpc.private_subnets
   vpc_id     = module.vpc.vpc_id
 
+  iam_role_additional_policies = {
+    "AmazonEKSVPCResourceController " = "arn:aws:iam::aws:policy/AmazonEKSVPCResourceController"
+  }
+
   eks_managed_node_groups = {
     ky-tf-node-group = {
-      desired_capacity = 2
-      max_size         = 3
+      max_size         = 4
       min_size         = 1
+      desired_size     = 2
 
-      instance_type = "t3.micro"
+      instance_types = ["t3.medium"]
 
       tags = {
         Name = "${local.name_prefix}-node-group"
