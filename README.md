@@ -11,7 +11,7 @@ Terraform code for creating an EKS Cluster and testing with Google MicroService 
 - **Install Ng-Inx:**
   - helm install my-release oci://ghcr.io/nginx/charts/nginx-ingress --version 2.1.0
   - helm upgrade my-release oci://ghcr.io/nginx/charts/nginx-ingress --version 2.1.0
-    **Run yaml files**
+- **Run yaml files**
   - run deployment yaml (make sure loadbalancer service is commented out)
   - run ingress.yaml
 
