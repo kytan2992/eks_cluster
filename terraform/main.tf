@@ -11,6 +11,7 @@ module "eks" {
 
   cluster_endpoint_public_access = true
   enable_cluster_creator_admin_permissions = true
+  enable_irsa = true
 
   subnet_ids = module.vpc.private_subnets
   vpc_id     = module.vpc.vpc_id
@@ -21,9 +22,9 @@ module "eks" {
 
   eks_managed_node_groups = {
     ky-tf-node-group = {
-      max_size         = 4
-      min_size         = 1
-      desired_size     = 2
+      max_size         = 5
+      min_size         = 3
+      desired_size     = 3
 
       instance_types = ["t3.medium"]
 

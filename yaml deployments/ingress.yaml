@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ky-test-ingress
+  namespace: ky-tf-test
+  annotations:
+    external-dns.alpha.kubernetes.io/hostname: "ky-test.sctp-sandbox.com" # Route53 Record
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - "ky-test.sctp-sandbox.com" # Route53 Record
+      secretName: ky-test-tls
+  rules:
+    - host: "ky-test.sctp-sandbox.com" # Route53 Record
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: frontend
+                port:
+                  number: 80

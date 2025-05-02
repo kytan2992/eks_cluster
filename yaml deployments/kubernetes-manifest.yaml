@@ -332,18 +332,18 @@ spec:
               value: "adservice:9555"
             - name: SHOPPING_ASSISTANT_SERVICE_ADDR
               value: "shoppingassistantservice:80"
-            # # ENV_PLATFORM: One of: local, gcp, aws, azure, onprem, alibaba
-            # # When not set, defaults to "local" unless running in GKE, otherwies auto-sets to gcp
-            # - name: ENV_PLATFORM
-            #   value: "aws"
+            # ENV_PLATFORM: One of: local, gcp, aws, azure, onprem, alibaba
+            # When not set, defaults to "local" unless running in GKE, otherwies auto-sets to gcp
+            - name: ENV_PLATFORM
+              value: "aws"
             - name: ENABLE_PROFILER
               value: "0"
-          # - name: CYMBAL_BRANDING
-          #   value: "true"
-          # - name: ENABLE_ASSISTANT
-          #   value: "true"
-          # - name: FRONTEND_MESSAGE
-          #   value: "Replace this with a message you want to display on all pages."
+            # - name: CYMBAL_BRANDING
+            #   value: "true"
+            # - name: ENABLE_ASSISTANT
+            #   value: "true"
+            - name: FRONTEND_MESSAGE
+              value: "Welcome to Group 2's Demo!"
           # As part of an optional Google Cloud demo, you can run an optional microservice called the "packaging service".
           # - name: PACKAGING_SERVICE_URL
           #   value: "" # This value would look like "http://123.123.123"
@@ -371,21 +371,21 @@ spec:
       port: 80
       targetPort: 8080
 ---
-apiVersion: v1
-kind: Service
-metadata:
-  name: frontend-external
-  namespace: ky-tf-test
-  labels:
-    app: frontend
-spec:
-  type: LoadBalancer
-  selector:
-    app: frontend
-  ports:
-    - name: http
-      port: 80
-      targetPort: 8080
+# apiVersion: v1
+# kind: Service
+# metadata:
+#   name: frontend-external
+#   namespace: ky-tf-test
+#   labels:
+#     app: frontend
+# spec:
+#   type: LoadBalancer
+#   selector:
+#     app: frontend
+#   ports:
+#     - name: http
+#       port: 80
+#       targetPort: 8080
 ---
 apiVersion: v1
 kind: ServiceAccount
