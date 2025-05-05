@@ -1,3 +1,6 @@
+## Run with helm to install a pod for cert manager to issue certificates
+## Make sure cert-manager
+
 apiVersion: cert-manager.io/v1
 kind: ClusterIssuer
 metadata:
@@ -5,7 +8,7 @@ metadata:
 spec:
   acme:
     server: https://acme-v02.api.letsencrypt.org/directory
-    email: kytan2992@gmail.com # You must replace this with your email
+    email: kytan2992@outlook.com # You must replace this with your email
     privateKeySecretRef:
       name: letsencrypt-prod-key
     solvers:

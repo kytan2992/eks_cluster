@@ -1,7 +1,9 @@
+## Policy for ExternalDNS to manage Route53 records
+
 resource "aws_iam_policy" "externaldns" {
   name        = "${local.name_prefix}-ExternalDNSPolicy"
   description = "Policy for ExternalDNS to manage Route53 records"
-  policy      = jsonencode({
+  policy = jsonencode({
     Version = "2012-10-17",
     Statement = [
       {
@@ -23,6 +25,8 @@ resource "aws_iam_policy" "externaldns" {
   })
 }
 
+## IAM Role for ExternalDNS
+
 resource "aws_iam_role" "externaldns" {
   name = "${local.name_prefix}-ExternalDNSRole"
 
@@ -37,8 +41,8 @@ resource "aws_iam_role" "externaldns" {
         Action = "sts:AssumeRoleWithWebIdentity",
         Condition = {
           StringEquals = {
-            "${module.eks.oidc_provider}:sub" = "system:serviceaccount:default:external-dns",
-            "${module.eks.oidc_provider}:aud": "sts.amazonaws.com"
+            "${module.eks.oidc_provider}:sub" = "system:serviceaccount:default:external-dns", ## "default" is the namespace created using helm if not specified, change if needed
+            "${module.eks.oidc_provider}:aud" : "sts.amazonaws.com"
           }
         }
       }

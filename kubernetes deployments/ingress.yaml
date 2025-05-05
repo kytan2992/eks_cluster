@@ -1,19 +1,19 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: ky-test-ingress
-  namespace: ky-tf-test
+  name: group-2-ingress
+  namespace: group-2-capstone
   annotations:
-    external-dns.alpha.kubernetes.io/hostname: "ky-test.sctp-sandbox.com" # Route53 Record
+    external-dns.alpha.kubernetes.io/hostname: "group-2-capstone.sctp-sandbox.com" # Route53 Record
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
 spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - "ky-test.sctp-sandbox.com" # Route53 Record
-      secretName: ky-test-tls
+        - "group-2-capstone.sctp-sandbox.com" # Route53 Record
+      secretName: group-2-capstone-tls
   rules:
-    - host: "ky-test.sctp-sandbox.com" # Route53 Record
+    - host: "group-2-capstone.sctp-sandbox.com" # Route53 Record
       http:
         paths:
           - path: /
