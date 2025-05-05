@@ -21,7 +21,7 @@ Terraform code for creating an EKS Cluster and testing with Google MicroService 
 
 > ## Adding Certificate Manager
 
-- **Install Helm:**
+- **Install Cert-Manager:**
 
   - helm repo add jetstack https://charts.jetstack.io --force-update
   - helm install \
