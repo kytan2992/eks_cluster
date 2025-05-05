@@ -2,7 +2,7 @@
 
 Terraform code for creating an EKS Cluster and testing with Google MicroService Online Boutique Demo
 
-## Making Route 53
+> ## Making Route 53
 
 - **Install ExternalDNS:**
   - create iam role and policies for ExternalDNS --- see iam.tf
@@ -15,7 +15,7 @@ Terraform code for creating an EKS Cluster and testing with Google MicroService 
   - run kubernetes-manifest.yaml (make sure loadbalancer service is commented out since we are using ingress instead)
   - run ingress.yaml
 
-## Adding Certificate Manager
+> ## Adding Certificate Manager
 
 - **Install Cert Manager:**
   - helm repo add jetstack https://charts.jetstack.io --force-update
