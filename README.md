@@ -27,4 +27,4 @@ Terraform code for creating an EKS Cluster and testing with Google MicroService 
     --set crds.enabled=true
 - **Run yaml files:**
   - run clusterissuer.yaml
-  - edit ingress.yaml and deploy again
+  - edit ingress.yaml (add annotations certmanager and spec:tls) and deploy again
