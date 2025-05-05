@@ -6,7 +6,7 @@ Terraform code for creating an EKS Cluster and testing with Google MicroService 
 
 - **Install ExternalDNS:**
 
-  - create iam role and policies for ExternalDNS # see externaldns-iam.tf
+  - create iam role and policies for ExternalDNS # see iam.tf
   - helm repo add external-dns https://kubernetes-sigs.github.io/external-dns/
   - helm upgrade --install external-dns external-dns/external-dns --values externaldns-values.yaml
 
