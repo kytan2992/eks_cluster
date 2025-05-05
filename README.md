@@ -13,7 +13,7 @@ Terraform code for creating an EKS Cluster and testing with Google MicroService 
   - helm upgrade my-release oci://ghcr.io/nginx/charts/nginx-ingress --version 2.1.0
 - **Run yaml files**
   - run kubernetes-manifest.yaml (make sure loadbalancer service is commented out since we are using ingress instead)
-  - run ingress.yaml (remove annotations certmanager and spec:tls if no cert-manager installed yet)
+  - run ingress.yaml (comment out annotations: cert-manager.io/cluster-issuer and spec:tls hosts and secretname first since cert-manager not installed yet)
 
 > ## Adding Certificate Manager
 
