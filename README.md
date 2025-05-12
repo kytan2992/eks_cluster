@@ -32,3 +32,18 @@ Terraform code for creating an EKS Cluster and testing with Google MicroService 
 - **Run yaml files:**
   - run clusterissuer.yaml
   - edit ingress.yaml (add annotations certmanager and spec:tls) and deploy again
+
+> ## Adding monitoring (promethus/grafana/alertmanager)
+* Still testing, cannot guarantee all fully functional 
+- **Deploy promethus, grafana, alertmanager and all required resources**
+  - helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+  - helm repo update
+  - helm install {RELEASE NAME} prometheus-community/kube-prometheus-stack \ --namespace monitoring --create-namespace
+- **Patch pods to allow opentelemetry**
+  - *I've already done in manually in this manifests deployment file, but if using the official one run the kustomize file to enable opentelemetry
+- **Deploy Opentelemetry services**
+  - deploy otel-collector.yaml - Opentelemetry Collector
+  - deploy opentele-service.yaml - Opentelemetry Collector Exporter to expose metrics endpoint
+  - deploy servicemonitor.yaml - Allow prometheus to scrape Opentelemetry Collector
+
+
