@@ -40,10 +40,22 @@ Terraform code for creating an EKS Cluster and testing with Google MicroService 
   - helm repo update
   - helm install {RELEASE NAME} prometheus-community/kube-prometheus-stack \ --namespace monitoring --create-namespace
 - **Patch pods to allow opentelemetry**
-  - *I've already done in manually in this manifests deployment file, but if using the official one run the kustomize file to enable opentelemetry
+  - *I've already done in manually in this manifests deployment file, but if using the official one run the kustomize file to enable opentelemetry since the official app is intergrated to opentelemtry by default
 - **Deploy Opentelemetry services**
   - deploy otel-collector.yaml - Opentelemetry Collector
   - deploy opentele-service.yaml - Opentelemetry Collector Exporter to expose metrics endpoint
   - deploy servicemonitor.yaml - Allow prometheus to scrape Opentelemetry Collector
 
-
+- **Add logging services (below here not tested/complete yet just list for future ref)**
+  - helm repo add grafana https://grafana.github.io/helm-charts
+  - helm repo update
+  - helm upgrade --install {RELEASE NAME} grafana/loki-stack \
+    --namespace *(same namespace as kube-prometheus-stack)* \
+    --set grafana.enabled=false *(since we've alr installed earlier in kube-prometheus stack)*\ 
+    --set persistence.enabled=true *(Enables persistent storage for Loki logs. Otherwise, logs are lost on pod restart.)* \
+    --set persistence.size=10Gi *(Sets the volume size for Loki's persistent volume claim (PVC). Adjust based on retention needs.)* \
+    --set serviceMonitor.enabled=true \
+  - helm upgrade --install grafana-alloy grafana/alloy \
+    --namespace *(same namespace as kube-prometheus-stack)* \
+    --set mode=logs \
+    --set alloy.logs.exporters.loki.endpoint="http://loki.monitoring.svc.cluster.local:3100/loki/api/v1/push"
