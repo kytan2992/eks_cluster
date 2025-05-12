@@ -55,3 +55,9 @@ resource "aws_iam_role_policy_attachment" "externaldns_attach" {
   policy_arn = aws_iam_policy.externaldns.arn
 }
 
+## IAM Role for EKS Node Group for pulling images from ECR
+# resource "aws_iam_role_policy_attachment" "ecr_pull" {
+#   role       = module.eks.eks_managed_node_groups["ky-tf-node-group"].iam_role_name
+#   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
+# }
+

@@ -4,10 +4,11 @@
 provider:
   name: aws
 env:
-  region: us-east-1 # Replace with your AWS region
+  - name: AWS_REGION
+    value: us-east-1
 
 serviceAccount:
   create: true
   name: external-dns
   annotations:
-    eks.amazonaws.com/role-arn: arn:aws:iam::255945442255:role/group-2-ExternalDNSRole # Replace with your IAM role ARN
+    eks.amazonaws.com/role-arn: arn:aws:iam::255945442255:role/ky-tf-ExternalDNSRole # Replace with your IAM role ARN

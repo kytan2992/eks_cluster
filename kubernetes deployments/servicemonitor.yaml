@@ -1,0 +1,132 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: cartservice
+  namespace: ky-tf-capstone
+  labels:
+    release: kube-prometheus-stack
+spec:
+  selector:
+    matchLabels:
+      app: cartservice
+  namespaceSelector:
+    matchNames:
+      - ky-tf-capstone
+  endpoints:
+    - port: metrics
+      path: /metrics
+      interval: 15s
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: checkoutservice
+  namespace: ky-tf-capstone
+  labels:
+    release: kube-prometheus-stack
+spec:
+  selector:
+    matchLabels:
+      app: checkoutservice
+  namespaceSelector:
+    matchNames:
+      - ky-tf-capstone
+  endpoints:
+    - port: metrics
+      path: /metrics
+      interval: 15s
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: currencyservice
+  namespace: ky-tf-capstone
+  labels:
+    release: kube-prometheus-stack
+spec:
+  selector:
+    matchLabels:
+      app: currencyservice
+  namespaceSelector:
+    matchNames:
+      - ky-tf-capstone
+  endpoints:
+    - port: metrics
+      path: /metrics
+      interval: 15s
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: paymentservice
+  namespace: ky-tf-capstone
+  labels:
+    release: kube-prometheus-stack
+spec:
+  selector:
+    matchLabels:
+      app: paymentservice
+  namespaceSelector:
+    matchNames:
+      - ky-tf-capstone
+  endpoints:
+    - port: metrics
+      path: /metrics
+      interval: 15s
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: productcatalogservice
+  namespace: ky-tf-capstone
+  labels:
+    release: kube-prometheus-stack
+spec:
+  selector:
+    matchLabels:
+      app: productcatalogservice
+  namespaceSelector:
+    matchNames:
+      - ky-tf-capstone
+  endpoints:
+    - port: metrics
+      path: /metrics
+      interval: 15s
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: recommendationservice
+  namespace: ky-tf-capstone
+  labels:
+    release: kube-prometheus-stack
+spec:
+  selector:
+    matchLabels:
+      app: recommendationservice
+  namespaceSelector:
+    matchNames:
+      - ky-tf-capstone
+  endpoints:
+    - port: metrics
+      path: /metrics
+      interval: 15s
+---
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: shippingservice
+  namespace: ky-tf-capstone
+  labels:
+    release: kube-prometheus-stack
+spec:
+  selector:
+    matchLabels:
+      app: shippingservice
+  namespaceSelector:
+    matchNames:
+      - ky-tf-capstone
+  endpoints:
+    - port: metrics
+      path: /metrics
+      interval: 15s

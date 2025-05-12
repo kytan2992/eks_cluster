@@ -18,6 +18,8 @@ module "vpc" {
   ## Google Container Registry. If we build the images ourselves and push them to our own ECR, we will need to change all the image values 
   ## in the yaml file and then can remove the NAT Gateway. Might need to add VPC Endpoints and IAM Access to ECR in this case
 
+  ## NAT Gateway is still needed if you want to issue certificates, since it pulls from LetsEncrypt servers which are not in AWS
+
   enable_nat_gateway      = true
   single_nat_gateway      = true
   map_public_ip_on_launch = true

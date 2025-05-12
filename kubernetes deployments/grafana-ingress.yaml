@@ -1,26 +1,26 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: ky-tf-ingress
-  namespace: ky-tf-capstone
+  name: grafana-ingress
+  namespace: monitoring
   annotations:
-    external-dns.alpha.kubernetes.io/hostname: "ky-tf-capstone.sctp-sandbox.com" # Route53 Record
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    external-dns.alpha.kubernetes.io/hostname: "grafana-ky-monitor.sctp-sandbox.com"
     acme.cert-manager.io/http01-edit-in-place: "true"
 spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - "ky-tf-capstone.sctp-sandbox.com" # Route53 Record
-      secretName: ky-tf-capstone-tls
+        - "grafana-ky-monitor.sctp-sandbox.com"
+      secretName: grafana-tls
   rules:
-    - host: "ky-tf-capstone.sctp-sandbox.com" # Route53 Record
+    - host: "grafana-ky-monitor.sctp-sandbox.com"
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: frontend
+                name: kube-prometheus-stack-grafana
                 port:
                   number: 80
