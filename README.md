@@ -26,7 +26,6 @@ Terraform code for creating an EKS Cluster and testing with Google MicroService 
     --create-namespace \
     --version v1.17.2 \
     --set crds.enabled=true
-    --set extraArgs={--default-ingress-class=nginx} # not sure if really needed, cos this will block grafana ingress
 - **Run yaml files:**
   - run clusterissuer.yaml
   - edit ingress.yaml (add annotations certmanager and spec:tls) and deploy again
