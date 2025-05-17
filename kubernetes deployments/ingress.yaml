@@ -1,20 +1,20 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: ky-tf-ingress
-  namespace: ky-tf-capstone
+  name: avengers-ingress
+  namespace: avengers-capstone
   annotations:
-    external-dns.alpha.kubernetes.io/hostname: "ky-tf-capstone.sctp-sandbox.com" # Route53 Record
+    external-dns.alpha.kubernetes.io/hostname: "avengers-capstone.sctp-sandbox.com" # Route53 Record
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
     acme.cert-manager.io/http01-edit-in-place: "true"
 spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - "ky-tf-capstone.sctp-sandbox.com" # Route53 Record
-      secretName: ky-tf-capstone-tls
+        - "avengers-capstone.sctp-sandbox.com" # Route53 Record
+      secretName: avengers-capstone-tls
   rules:
-    - host: "ky-tf-capstone.sctp-sandbox.com" # Route53 Record
+    - host: "avengers-capstone.sctp-sandbox.com" # Route53 Record
       http:
         paths:
           - path: /

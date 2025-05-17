@@ -17,6 +17,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: opentelemetrycollector
+  namespace: opentelemetry
 spec:
   replicas: 1
   selector:
@@ -32,29 +33,6 @@ spec:
         runAsGroup: 1000
         runAsNonRoot: true
         runAsUser: 1000
-      # Init container retrieves the current cloud project id from the metadata server
-      # and inserts it into the collector config template
-      # https://cloud.google.com/compute/docs/storing-retrieving-metadata
-      initContainers:
-      - name: otel-gateway-init
-        securityContext:
-          allowPrivilegeEscalation: false
-          capabilities:
-            drop:
-              - ALL
-          privileged: false
-          readOnlyRootFilesystem: true
-        image: busybox:latest@sha256:37f7b378a29ceb4c551b1b5582e27747b855bbfaa73fa11914fe0df028dc581f
-        command:
-        - '/bin/sh'
-        - '-c'
-        - |
-           sed "s/{{PROJECT_ID}}/$(curl -H 'Metadata-Flavor: Google' http://metadata.google.internal/computeMetadata/v1/project/project-id)/" /template/collector-gateway-config-template.yaml >> /conf/collector-gateway-config.yaml
-        volumeMounts:
-        - name: collector-gateway-config-template
-          mountPath: /template
-        - name: collector-gateway-config
-          mountPath: /conf
       containers:
       # This gateway container will receive traces and metrics from each microservice
       # and forward it to GCP
@@ -69,25 +47,26 @@ spec:
         args:
         - --config=/conf/collector-gateway-config.yaml
         image: otel/opentelemetry-collector-contrib:0.122.1@sha256:0076e6c250bef16968e29e8f94177b87b5a851c79ce14b270e657f5f655b9e04
+        ports:
+          - name: grpc-otlp
+            containerPort: 4317
+          - name: metrics
+            containerPort: 8889
         volumeMounts:
         - name: collector-gateway-config
           mountPath: /conf
       volumes:
-      # Simple ConfigMap volume with template file
-      - name: collector-gateway-config-template
-        configMap:
-          items:
-          - key: collector-gateway-config-template.yaml
-            path: collector-gateway-config-template.yaml
-          name: collector-gateway-config-template
-      # Create a volume to store the expanded template (with correct cloud project ID)
       - name: collector-gateway-config
-        emptyDir: {}
+        configMap:
+          name: collector-gateway-config
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: opentelemetrycollector
+  namespace: opentelemetry
+  labels:
+    app: opentelemetrycollector
 spec:
   ports:
   - name: grpc-otlp
@@ -96,7 +75,6 @@ spec:
     targetPort: 4317
   - name: metrics
     port: 8889
-    protocol: TCP
     targetPort: 8889
   selector:
     app: opentelemetrycollector
@@ -105,28 +83,32 @@ spec:
 apiVersion: v1
 kind: ConfigMap
 metadata:
-  name: collector-gateway-config-template
+  name: collector-gateway-config
+  namespace: opentelemetry
 # Open Telemetry Collector config
 # https://opentelemetry.io/docs/collector/configuration/
 data:
-  collector-gateway-config-template.yaml: |
+  collector-gateway-config.yaml: |
     receivers:
       otlp:
         protocols: 
           grpc:
+      prometheus:
+        config:
+          scrape_configs:
+            - job_name: otel-collector
+              scrape_interval: 5s
+              static_configs:
+                - targets:
+                    - 'checkoutservice.avengers-capstone.svc.cluster.local:5050'
     processors:
     exporters:
-      googlecloud:
-        project: {{PROJECT_ID}}
       prometheus:
         endpoint: 0.0.0.0:8889
+        namespace: otel-collector
     service:
       pipelines:
-        traces:
-          receivers: [otlp] # Receive otlp-formatted data from other collector instances
-          processors: []
-          exporters: [googlecloud] # Export traces directly to Google Cloud
         metrics:
-          receivers: [otlp]
+          receivers: [otlp, prometheus]
           processors: []
-          exporters: [googlecloud, prometheus] # Export metrics to Google Cloud
+          exporters: [prometheus] 

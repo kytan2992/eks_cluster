@@ -22,7 +22,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: emailservice
-  namespace: ky-tf-capstone
+  namespace: avengers-capstone
   labels:
     app: emailservice
 spec:
@@ -61,7 +61,7 @@ spec:
             - name: OTEL_SERVICE_NAME
               value: "emailservice"
             - name: ENABLE_TRACING
-              value: "1"
+              value: "0"
           readinessProbe:
             periodSeconds: 5
             grpc:
@@ -82,7 +82,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: emailservice
-  namespace: ky-tf-capstone
+  namespace: avengers-capstone
   labels:
     app: emailservice
 spec:
@@ -98,13 +98,13 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: emailservice
-  namespace: ky-tf-capstone
+  namespace: avengers-capstone
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: checkoutservice
-  namespace: ky-tf-capstone
+  namespace: avengers-capstone
   labels:
     app: checkoutservice
 spec:
@@ -160,9 +160,9 @@ spec:
             - name: OTEL_SERVICE_NAME
               value: "checkoutservice"
             - name: ENABLE_TRACING
-              value: "1"
+              value: "0"
             - name: ENABLE_PROFILER
-              value: "1"
+              value: "0"
           resources:
             requests:
               cpu: 100m
@@ -175,7 +175,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: checkoutservice
-  namespace: ky-tf-capstone
+  namespace: avengers-capstone
   labels:
     app: checkoutservice
 spec:
@@ -191,13 +191,13 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: checkoutservice
-  namespace: ky-tf-capstone
+  namespace: avengers-capstone
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: recommendationservice
-  namespace: ky-tf-capstone
+  namespace: avengers-capstone
   labels:
     app: recommendationservice
 spec:
@@ -246,7 +246,7 @@ spec:
             - name: OTEL_SERVICE_NAME
               value: "recommendationservice"
             - name: ENABLE_TRACING
-              value: "1"
+              value: "0"
           resources:
             requests:
               cpu: 100m
@@ -259,7 +259,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: recommendationservice
-  namespace: ky-tf-capstone
+  namespace: avengers-capstone
   labels:
     app: recommendationservice
 spec:
@@ -275,13 +275,13 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: recommendationservice
-  namespace: ky-tf-capstone
+  namespace: avengers-capstone
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: frontend
-  namespace: ky-tf-capstone
+  namespace: avengers-capstone
   labels:
     app: frontend
 spec:
@@ -349,19 +349,17 @@ spec:
             - name: SHOPPING_ASSISTANT_SERVICE_ADDR
               value: "shoppingassistantservice:80"
             - name: ENABLE_TRACING
-              value: "1"
+              value: "0"
             - name: COLLECTOR_SERVICE_ADDR
               value: "opentelemetrycollector:4317"
             - name: OTEL_SERVICE_NAME
               value: "frontend"
             - name: ENABLE_PROFILER
-              value: "1"
+              value: "0"
             # ENV_PLATFORM: One of: local, gcp, aws, azure, onprem, alibaba
             # When not set, defaults to "local" unless running in GKE, otherwies auto-sets to gcp
             - name: ENV_PLATFORM
               value: "aws"
-            - name: ENABLE_PROFILER
-              value: "0"
             # - name: CYMBAL_BRANDING
             #   value: "true"
             # - name: ENABLE_ASSISTANT
@@ -383,7 +381,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: frontend
-  namespace: ky-tf-capstone
+  namespace: avengers-capstone
   labels:
     app: frontend
 spec:
@@ -399,7 +397,7 @@ spec:
 # kind: Service
 # metadata:
 #   name: frontend-external
-#   namespace: ky-tf-capstone
+#   namespace: avengers-capstone
 #   labels:
 #     app: frontend
 # spec:
@@ -415,13 +413,13 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: frontend
-  namespace: ky-tf-capstone
+  namespace: avengers-capstone
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: paymentservice
-  namespace: ky-tf-capstone
+  namespace: avengers-capstone
   labels:
     app: paymentservice
 spec:
@@ -460,7 +458,9 @@ spec:
             - name: OTEL_SERVICE_NAME
               value: "paymentservice"
             - name: ENABLE_TRACING
-              value: "1"
+              value: "0"
+            - name: DISABLE_PROFILER
+              value: "true"
           readinessProbe:
             grpc:
               port: 50051
@@ -479,7 +479,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: paymentservice
-  namespace: ky-tf-capstone
+  namespace: avengers-capstone
   labels:
     app: paymentservice
   annotations:
@@ -497,13 +497,13 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: paymentservice
-  namespace: ky-tf-capstone
+  namespace: avengers-capstone
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: productcatalogservice
-  namespace: ky-tf-capstone
+  namespace: avengers-capstone
   labels:
     app: productcatalogservice
 spec:
@@ -542,7 +542,7 @@ spec:
             - name: OTEL_SERVICE_NAME
               value: "productcatalogservice"
             - name: ENABLE_TRACING
-              value: "1"
+              value: "0"
           readinessProbe:
             grpc:
               port: 3550
@@ -561,7 +561,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: productcatalogservice
-  namespace: ky-tf-capstone
+  namespace: avengers-capstone
   labels:
     app: productcatalogservice
 spec:
@@ -577,13 +577,13 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: productcatalogservice
-  namespace: ky-tf-capstone
+  namespace: avengers-capstone
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: cartservice
-  namespace: ky-tf-capstone
+  namespace: avengers-capstone
   labels:
     app: cartservice
 spec:
@@ -638,7 +638,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: cartservice
-  namespace: ky-tf-capstone
+  namespace: avengers-capstone
   labels:
     app: cartservice
 spec:
@@ -654,13 +654,13 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: cartservice
-  namespace: ky-tf-capstone
+  namespace: avengers-capstone
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: redis-cart
-  namespace: ky-tf-capstone
+  namespace: avengers-capstone
   labels:
     app: redis-cart
 spec:
@@ -715,7 +715,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: redis-cart
-  namespace: ky-tf-capstone
+  namespace: avengers-capstone
   labels:
     app: redis-cart
 spec:
@@ -731,7 +731,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: loadgenerator
-  namespace: ky-tf-capstone
+  namespace: avengers-capstone
   labels:
     app: loadgenerator
 spec:
@@ -814,13 +814,13 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: loadgenerator
-  namespace: ky-tf-capstone
+  namespace: avengers-capstone
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: currencyservice
-  namespace: ky-tf-capstone
+  namespace: avengers-capstone
   labels:
     app: currencyservice
 spec:
@@ -852,6 +852,8 @@ spec:
           ports:
             - name: grpc
               containerPort: 7000
+            - name: metrics
+              containerPort: 8081 
           env:
             - name: PORT
               value: "7000"
@@ -860,7 +862,9 @@ spec:
             - name: OTEL_SERVICE_NAME
               value: "currencyservice"
             - name: ENABLE_TRACING
-              value: "1"
+              value: "0"
+            - name: DISABLE_PROFILER
+              value: "true"
           readinessProbe:
             grpc:
               port: 7000
@@ -879,7 +883,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: currencyservice
-  namespace: ky-tf-capstone
+  namespace: avengers-capstone
   labels:
     app: currencyservice
 spec:
@@ -890,18 +894,21 @@ spec:
     - name: grpc
       port: 7000
       targetPort: 7000
+    - name: metrics                # <-- Add metrics service port
+      port: 8081
+      targetPort: 8081
 ---
 apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: currencyservice
-  namespace: ky-tf-capstone
+  namespace: avengers-capstone
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: shippingservice
-  namespace: ky-tf-capstone
+  namespace: avengers-capstone
   labels:
     app: shippingservice
 spec:
@@ -953,7 +960,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: shippingservice
-  namespace: ky-tf-capstone
+  namespace: avengers-capstone
   labels:
     app: shippingservice
 spec:
@@ -969,13 +976,13 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: shippingservice
-  namespace: ky-tf-capstone
+  namespace: avengers-capstone
 ---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: adservice
-  namespace: ky-tf-capstone
+  namespace: avengers-capstone
   labels:
     app: adservice
 spec:
@@ -1031,7 +1038,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: adservice
-  namespace: ky-tf-capstone
+  namespace: avengers-capstone
   labels:
     app: adservice
 spec:
@@ -1047,5 +1054,5 @@ apiVersion: v1
 kind: ServiceAccount
 metadata:
   name: adservice
-  namespace: ky-tf-capstone
+  namespace: avengers-capstone
 # [END gke_release_kubernetes_manifests_microservices_demo]

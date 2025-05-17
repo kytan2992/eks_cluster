@@ -11,7 +11,9 @@ Terraform code for creating an EKS Cluster and testing with Google MicroService 
   - helm repo add external-dns https://kubernetes-sigs.github.io/external-dns/
   - helm install external-dns external-dns/external-dns --values externaldns-values.yaml --namespace external-dns --create-namespace
 - **Install Ng-Inx:**
-  - helm install my-release oci://ghcr.io/nginx/charts/nginx-ingress --version 2.1.0  --namespace ng-inx --create-namespace
+  - kubectl apply -f https://raw.githubusercontent.com/nginx/kubernetes-ingress/v5.0.0/deploy/crds.yaml (only if using specific CRDs)
+  - helm install my-release oci://ghcr.io/nginx/charts/nginx-ingress --version 2.1.0
+  - helm upgrade my-release oci://ghcr.io/nginx/charts/nginx-ingress --version 2.1.0
 - **Run yaml files**
   - run kubernetes-manifest.yaml (make sure loadbalancer service is commented out since we are using ingress instead)
   - run ingress.yaml (comment out annotations: cert-manager.io/cluster-issuer and spec:tls hosts and secretname first since cert-manager not installed yet)

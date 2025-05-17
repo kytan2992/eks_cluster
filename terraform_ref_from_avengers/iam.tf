@@ -36,13 +36,13 @@ resource "aws_iam_role" "externaldns" {
       {
         Effect = "Allow",
         Principal = {
-          Federated = module.eks.oidc_provider_arn
+          Federated = data.aws_iam_openid_connect_provider.oidc.arn
         },
         Action = "sts:AssumeRoleWithWebIdentity",
         Condition = {
           StringEquals = {
-            "${module.eks.oidc_provider}:sub" = "system:serviceaccount:external-dns:external-dns", ## "default" is the namespace created using helm if not specified, change if needed
-            "${module.eks.oidc_provider}:aud" : "sts.amazonaws.com"
+            "${replace(data.aws_iam_openid_connect_provider.oidc.url, "https://", "")}:sub" = "system:serviceaccount:external-dns:external-dns", ## "default" is the namespace created using helm if not specified, change if needed
+            "${replace(data.aws_iam_openid_connect_provider.oidc.url, "https://", "")}:aud" : "sts.amazonaws.com"
           }
         }
       }
@@ -57,7 +57,7 @@ resource "aws_iam_role_policy_attachment" "externaldns_attach" {
 
 # IAM Role for EKS Node Group for pulling images from ECR
 # resource "aws_iam_role_policy_attachment" "ecr_pull" {
-#   role       = module.eks.cluster_iam_role_name
+#   role       = element(split("/", data.aws_eks_cluster.cluster.role_arn), 1)
 #   policy_arn = "arn:aws:iam::aws:policy/AmazonEC2ContainerRegistryReadOnly"
 # }
 

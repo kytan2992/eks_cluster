@@ -38,9 +38,7 @@ module "eks" {
       instance_types = ["t3.medium"]
 
       tags = {
-        Name                                                     = "${local.name_prefix}-node-group"
-        "k8s.io/cluster-autoscaler/enabled"                      = "true"
-        "k8s.io/cluster-autoscaler/${local.name_prefix}-cluster" = "owned"
+        Name = "${local.name_prefix}-node-group"
       }
     }
   }
@@ -49,13 +47,6 @@ module "eks" {
   }
 }
 
-## Create the namespace for the application
-
-# resource "kubernetes_namespace" "namespace" {
-#   metadata {
-#     name = "${local.name_prefix}-capstone"
-#   }
-# }
 
 # Create VPC Endpoints for EKS CLuster to connect to ECR
 # resource "aws_vpc_endpoint" "ecr_api" {

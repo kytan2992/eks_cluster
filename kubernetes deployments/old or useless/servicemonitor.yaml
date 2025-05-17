@@ -4,14 +4,14 @@ metadata:
   name: otel-collector
   namespace: monitoring  # Or wherever kube-prometheus-stack is installed
   labels:
-    release: kube-prometheus-stack  # must match Prometheus release
+    release: prom-monitor  # must match Prometheus release
 spec:
   selector:
     matchLabels:
       app: opentelemetrycollector
   namespaceSelector:
     matchNames:
-      - default  # or the namespace you're using
+      - monitoring  # or the namespace you're using
   endpoints:
     - port: metrics
       path: /metrics

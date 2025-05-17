@@ -11,4 +11,4 @@ serviceAccount:
   create: true
   name: external-dns
   annotations:
-    eks.amazonaws.com/role-arn: arn:aws:iam::255945442255:role/ky-tf-ExternalDNSRole # Replace with your IAM role ARN
+    eks.amazonaws.com/role-arn: arn:aws:iam::255945442255:role/avengers-ExternalDNSRole # Replace with your IAM role ARN
